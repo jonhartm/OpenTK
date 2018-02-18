@@ -23,15 +23,15 @@
 
         private static void Win_Load()
         {
-            float[] vertices =
+            Vertex[] vertices =
             {
-                -0.5f, -0.5f, 0.0f, // left  
-                 0.5f, -0.5f, 0.0f, // right 
-                 0.0f,  0.5f, 0.0f  // top  
+                new Vertex(new Vec3(-0.5f, -0.5f, 0.0f)),
+                new Vertex(new Vec3(0.5f, -0.5f, 0.0f)),
+                new Vertex(new Vec3(0.0f,  0.5f, 0.0f))
             };
 
-            Shader vertexShader = Shader.LoadVertexShader(@"F:\Documents\GitHub\OpenTK\OpenGL_Helper\Shader\Source\helloTriangle.vert.glsl");
-            Shader fragmentShader = Shader.LoadFragmentShader(@"F:\Documents\GitHub\OpenTK\OpenGL_Helper\Shader\Source\helloTriangle.frag.glsl");
+            Shader vertexShader = Shader.LoadVertexShader(@"Shader\Source\helloTriangle.vert.glsl");
+            Shader fragmentShader = Shader.LoadFragmentShader(@"Shader\Source\helloTriangle.frag.glsl");
 
             triangle = new GLObject(vertices, new List<Shader>() { vertexShader, fragmentShader });
         }

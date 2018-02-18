@@ -48,13 +48,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shader\ShaderProgram.cs" />
     <Compile Include="Shader\Shaders.cs" />
+    <Compile Include="Structs\Vec3.cs" />
+    <Compile Include="Structs\Vertex.cs" />
     <Compile Include="Window.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
-    <None Include="Shader\Source\helloTriangle.frag.glsl" />
-    <None Include="Shader\Source\helloTriangle.vert.glsl" />
+    <None Include="Shader\Source\helloTriangle.frag.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Shader\Source\helloTriangle.vert.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

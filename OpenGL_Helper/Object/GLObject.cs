@@ -27,7 +27,7 @@ namespace OpenGL_Helper.Object
         /// </summary>
         /// <param name="vertices">An array of floats with vertex information for the object.</param>
         /// <param name="shaders">A list of the shaders to be used by this object.</param>
-        public GLObject(float[] vertices, List<Shader> shaders)
+        public GLObject(Vertex[] vertices, List<Shader> shaders)
         {
             // build and compile the shaders
             shaderProgram = ShaderProgram.LoadShaderProgram(shaders);
@@ -39,7 +39,7 @@ namespace OpenGL_Helper.Object
             GL.BindVertexArray(vertex_array_object);
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, vertex_buffer_object);
-            GL.BufferData(BufferTarget.ArrayBuffer, sizeof(float) * vertices.Length, vertices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, Vertex.SizeInBytes * vertices.Length, vertices, BufferUsageHint.StaticDraw);
 
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
