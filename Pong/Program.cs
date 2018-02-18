@@ -25,15 +25,22 @@
         {
             Vertex[] vertices =
             {
-                new Vertex(new Vec3(-0.5f, -0.5f, 0.0f)),
+                new Vertex(new Vec3(0.5f,  0.5f, 0.0f)),
                 new Vertex(new Vec3(0.5f, -0.5f, 0.0f)),
-                new Vertex(new Vec3(0.0f,  0.5f, 0.0f))
+                new Vertex(new Vec3(-0.5f, -0.5f, 0.0f)),
+                new Vertex(new Vec3(-0.5f,  0.5f, 0.0f))
+            };
+
+            short[] indices =
+            {
+                0, 1, 3,  // first Triangle
+                1, 2, 3   // second Triangle
             };
 
             Shader vertexShader = Shader.LoadVertexShader(@"Shader\Source\helloTriangle.vert.glsl");
             Shader fragmentShader = Shader.LoadFragmentShader(@"Shader\Source\helloTriangle.frag.glsl");
 
-            triangle = new GLObject(vertices, new List<Shader>() { vertexShader, fragmentShader });
+            triangle = new GLObject(vertices, indices, new List<Shader>() { vertexShader, fragmentShader });
         }
 
         private static void Win_Render()

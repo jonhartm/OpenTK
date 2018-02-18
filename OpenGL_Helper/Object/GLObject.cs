@@ -27,7 +27,7 @@ namespace OpenGL_Helper.Object
         /// </summary>
         /// <param name="vertices">An array of floats with vertex information for the object.</param>
         /// <param name="shaders">A list of the shaders to be used by this object.</param>
-        public GLObject(Vertex[] vertices, List<Shader> shaders)
+        public GLObject(Vertex[] vertices, short[] indices, List<Shader> shaders)
         {
             // build and compile the shaders
             shaderProgram = ShaderProgram.LoadShaderProgram(shaders);
@@ -35,11 +35,15 @@ namespace OpenGL_Helper.Object
             // set up vertex data and buffers and configure vertex attributes
             vertex_array_object = GL.GenVertexArray();
             int vertex_buffer_object = GL.GenBuffer();
+            int element_bufer_object = GL.GenBuffer();
 
             GL.BindVertexArray(vertex_array_object);
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, vertex_buffer_object);
             GL.BufferData(BufferTarget.ArrayBuffer, Vertex.SizeInBytes * vertices.Length, vertices, BufferUsageHint.StaticDraw);
+
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, element_bufer_object);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, sizeof(short) * indices.Length, indices, BufferUsageHint.StaticDraw);
 
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
@@ -54,7 +58,7 @@ namespace OpenGL_Helper.Object
         {
             GL.UseProgram(shaderProgram.Handle);
             GL.BindVertexArray(vertex_array_object);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedShort, 0);
         }        
     }
 }
