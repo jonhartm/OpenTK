@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Object\GLObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shader\ShaderProgram.cs" />
     <Compile Include="Shader\Shaders.cs" />

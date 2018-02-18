@@ -12,6 +12,10 @@
 
     public class Window : IDisposable
     {
+        public delegate void WindowEventHandler();
+
+        public event WindowEventHandler Load;
+        public event WindowEventHandler Render;
 
         /// <summary>
         /// Gets the title of the window, it's current FPS, and dimensions.
@@ -39,9 +43,6 @@
         private string title;
 
         private GameWindow window = new GameWindow();
-
-        private ShaderProgram shaderProgram;
-        private int vertex_array_object;
 
         
         /// <summary>
@@ -101,31 +102,7 @@
             Console.WriteLine("GLSL Version: " + GL.GetString(StringName.ShadingLanguageVersion));
             Console.WriteLine(GL.GetString(StringName.Vendor) + " - " + GL.GetString(StringName.Renderer));
 
-            // build and compile the shaders
-            Shader vertexShader = Shader.LoadVertexShader(@"F:\Documents\GitHub\OpenTK\OpenGL_Helper\Shader\Source\helloTriangle.vert.glsl");
-            Shader fragmentShader = Shader.LoadFragmentShader(@"F:\Documents\GitHub\OpenTK\OpenGL_Helper\Shader\Source\helloTriangle.frag.glsl");
-            shaderProgram = ShaderProgram.LoadShaderProgram(new List<Shader>() { vertexShader, fragmentShader });
-
-            // set up vertex data and buffers and configure vertex attributes
-            float[] vertices =
-            {
-                -0.5f, -0.5f, 0.0f, // left  
-                 0.5f, -0.5f, 0.0f, // right 
-                 0.0f,  0.5f, 0.0f  // top  
-            };
-
-            vertex_array_object = GL.GenVertexArray();
-            int vertex_buffer_object = GL.GenBuffer();
-
-            GL.BindVertexArray(vertex_array_object);
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vertex_buffer_object);
-            GL.BufferData(BufferTarget.ArrayBuffer, sizeof(float) * vertices.Length, vertices, BufferUsageHint.StaticDraw);
-
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-            GL.EnableVertexAttribArray(0);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-            GL.BindVertexArray(0);
+            this.Load();
         }
 
         /// <summary>
@@ -146,9 +123,7 @@
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            GL.UseProgram(shaderProgram.Handle);
-            GL.BindVertexArray(vertex_array_object);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            this.Render();
 
             window.SwapBuffers();
         }
