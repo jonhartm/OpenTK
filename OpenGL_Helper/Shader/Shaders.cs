@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     using OpenTK.Graphics.OpenGL;
 
@@ -22,6 +23,16 @@
 
         private Shader(ShaderType type, string shaderSource, string shaderName)
         {
+            // Check Loaded Shaders to see if this one has already been read in.
+            object S = loadedShaders.Where(x => x.Name.Equals(shaderName)).FirstOrDefault();
+            if (S != null)
+            {
+                // If it has, grab the handle and name and ignore everything else here
+                this.Handle = ((Shader)S).Handle;
+                this.Name = ((Shader)S).Name;
+                return;
+            }
+
             // Save the file name so we can use it to compare against later
             this.Name = shaderName;
 
