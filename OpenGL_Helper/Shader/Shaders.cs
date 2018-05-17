@@ -21,7 +21,7 @@
         /// </summary>
         public string Name { get; private set; }
 
-        private Shader(ShaderType type, string shaderSource, string shaderName)
+        private Shader(ShaderType type, string shaderName, string shaderSource = null)
         {
             // Check Loaded Shaders to see if this one has already been read in.
             object S = loadedShaders.Where(x => x.Name.Equals(shaderName)).FirstOrDefault();
@@ -38,6 +38,10 @@
 
             // Get the next available GL handler for a shader
             Handle = GL.CreateShader(type);
+
+            // If there was no source provided, lets see if the shader name is actually a filename
+            if (shaderSource == null)
+                shaderSource = LoadSourceFromFile(shaderName);
 
             // Locate the shader source from the file
             GL.ShaderSource(Handle, shaderSource);
@@ -69,13 +73,13 @@
             }
         }
 
-        public static Shader LoadVertexShader(string filename) { return new Shader(ShaderType.VertexShader, LoadSourceFromFile(filename), filename); }
+        public static Shader LoadVertexShader(string filename) { return new Shader(ShaderType.VertexShader, filename); }
 
-        public static Shader LoadVertexShader(string sourceCode, string resourceName) { return new Shader(ShaderType.VertexShader, sourceCode, resourceName); }
+        public static Shader LoadVertexShader(string sourceCode, string resourceName) { return new Shader(ShaderType.VertexShader, resourceName, sourceCode); }
 
-        public static Shader LoadFragmentShader(string filename) { return new Shader(ShaderType.FragmentShader, LoadSourceFromFile(filename), filename); }
+        public static Shader LoadFragmentShader(string filename) { return new Shader(ShaderType.FragmentShader, filename); }
 
-        public static Shader LoadFragmentShader(string sourceCode, string resourceName) { return new Shader(ShaderType.FragmentShader, sourceCode, resourceName); }
+        public static Shader LoadFragmentShader(string sourceCode, string resourceName) { return new Shader(ShaderType.FragmentShader, resourceName, sourceCode); }
 
         public static bool operator ==(Shader shader1, Shader shader2)
         {
