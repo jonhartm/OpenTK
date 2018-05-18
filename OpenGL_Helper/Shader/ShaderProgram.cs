@@ -47,21 +47,13 @@
         public static ShaderProgram LoadShaderProgram(List<Shader> shaders)
         {
             // Check to see if this set of shaders has already been loaded, and return the cooresponding program handle if so
+ 
             foreach (ShaderProgram program in loadedShaderPrograms)
             {
                 // Do they have the same number of shader files?
-                if (program.Shaders.Count == shaders.Count)
-                {
-                    int matchCount = 0;
-                    foreach (Shader s1 in shaders)
-                    {
-                        foreach (Shader s2 in program.Shaders)
-                        {
-                            if (s1 == s2) matchCount++;
-                        }
-                    }
-                    if (matchCount == program.Shaders.Count) return program;
-                }
+                if (new HashSet<Shader>(shaders).SetEquals(program.Shaders))
+                    Console.WriteLine("Program ID {0} has the same shaders. Assigning that program.", program.Handle);
+                    return program;
             }
 
             // Add this program to the dictionary for later use, if needed.
