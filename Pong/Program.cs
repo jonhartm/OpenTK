@@ -8,9 +8,6 @@
 
     class Program
     {
-        private static GLObject triangle1;
-        private static GLObject triangle2;
-
         static void Main(string[] args)
         {
             using (Window win = new Window("Pong"))
@@ -42,7 +39,7 @@
             Shader tri1_vertexShader = Shader.LoadVertexShader(@"Shader\Source\helloTriangle.vert.glsl");
             Shader tri1_fragmentShader = Shader.LoadFragmentShader(@"Shader\Source\helloTriangle.frag.glsl");
 
-            triangle1 = new GLObject(tri1_vertices, tri1_indices, new List<Shader>() { tri1_vertexShader, tri1_fragmentShader });
+            ObjectManager.AddObject(new GLObject(tri1_vertices, tri1_indices, new List<Shader>() { tri1_vertexShader, tri1_fragmentShader }));
 
             // Triangle 2
             Vertex[] tri2_vertices =
@@ -62,13 +59,12 @@
             Shader tri2_vertexShader = Shader.LoadVertexShader(@"Shader\Source\helloTriangle.vert.glsl");
             Shader tri2_fragmentShader = Shader.LoadFragmentShader(@"Shader\Source\helloTriangle.frag.glsl");
 
-            triangle2 = new GLObject(tri2_vertices, tri2_indices, new List<Shader>() { tri2_vertexShader, tri2_fragmentShader });
+            ObjectManager.AddObject(new GLObject(tri2_vertices, tri2_indices, new List<Shader>() { tri2_vertexShader, tri2_fragmentShader }));
         }
 
         private static void Win_Render()
         {
-            triangle1.Render();
-            triangle2.Render();
+            ObjectManager.RenderAll();
         }
     }
 }

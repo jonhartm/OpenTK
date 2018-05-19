@@ -20,7 +20,7 @@ namespace OpenGL_Helper.Object
         /// <summary>
         /// The shader program used by this object.
         /// </summary>
-        private ShaderProgram shaderProgram;
+        public ShaderProgram ShaderProgram { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GLObject"/> class.
@@ -30,7 +30,7 @@ namespace OpenGL_Helper.Object
         public GLObject(Vertex[] vertices, short[] indices, List<Shader> shaders)
         {
             // build and compile the shaders
-            shaderProgram = ShaderProgram.LoadShaderProgram(shaders);
+            ShaderProgram = ShaderProgram.LoadShaderProgram(shaders);
 
             // set up vertex data and buffers and configure vertex attributes
             vertex_array_object = GL.GenVertexArray();
@@ -56,7 +56,6 @@ namespace OpenGL_Helper.Object
         /// </summary>
         public void Render()
         {
-            GL.UseProgram(shaderProgram.Handle);
             GL.BindVertexArray(vertex_array_object);
             GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedShort, 0);
         }        
