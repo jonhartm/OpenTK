@@ -36,30 +36,11 @@
                 1, 2, 3   // second Triangle
             };
 
-            Shader tri1_vertexShader = Shader.LoadVertexShader(@"Shader\Source\helloTriangle.vert.glsl");
-            Shader tri1_fragmentShader = Shader.LoadFragmentShader(@"Shader\Source\helloTriangle.frag.glsl");
+            Shader tri1_vertexShader = Shader.LoadVertexShader(@"Shader\Source\moreShaders.vert.glsl");
+            Shader tri1_fragmentShader = Shader.LoadFragmentShader(@"Shader\Source\moreShaders.frag.glsl");
 
             ObjectManager.AddObject(new GLObject(tri1_vertices, tri1_indices, new List<Shader>() { tri1_vertexShader, tri1_fragmentShader }));
-
-            // Triangle 2
-            Vertex[] tri2_vertices =
-            {
-                new Vertex(new Vec3(0.75f,  0.75f, 0.0f)),
-                new Vertex(new Vec3(0.75f, 0.25f, 0.0f)),
-                new Vertex(new Vec3(0.25f, 0.25f, 0.0f)),
-                new Vertex(new Vec3(0.25f,  0.75f, 0.0f))
-            };
-
-            short[] tri2_indices =
-            {
-                0, 1, 3,  // first Triangle
-                1, 2, 3   // second Triangle
-            };
-
-            Shader tri2_vertexShader = Shader.LoadVertexShader(@"Shader\Source\helloTriangle.vert.glsl");
-            Shader tri2_fragmentShader = Shader.LoadFragmentShader(@"Shader\Source\helloTriangle.frag.glsl");
-
-            ObjectManager.AddObject(new GLObject(tri2_vertices, tri2_indices, new List<Shader>() { tri2_vertexShader, tri2_fragmentShader }));
+            UniformVec3 tri1_color = new UniformVec3(new Vec3(1.0f, 0.0f, 0.0f), "ourColor", 3);
         }
 
         private static void Win_Render()
