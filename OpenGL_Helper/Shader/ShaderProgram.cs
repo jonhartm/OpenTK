@@ -52,8 +52,10 @@
             {
                 // Do they have the same number of shader files?
                 if (new HashSet<Shader>(shaders).SetEquals(program.Shaders))
+                {
                     Console.WriteLine("Program ID {0} has the same shaders. Assigning that program.", program.Handle);
                     return program;
+                }
             }
 
             // Add this program to the dictionary for later use, if needed.
