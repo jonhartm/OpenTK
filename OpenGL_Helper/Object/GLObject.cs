@@ -13,6 +13,16 @@ namespace OpenGL_Helper.Object
     public class GLObject
     {
         /// <summary>
+        /// Unique ID for this Object
+        /// </summary>
+        public int ID { get; private set; } = Counter++;
+
+        /// <summary>
+        /// Counter to keep track of the current object
+        /// </summary>
+        private static int Counter = 0;
+
+        /// <summary>
         /// Integer that holds a reference to the GL assigned handle for this object's Vertex Array Object
         /// </summary>
         private int vertex_array_object = -1;
@@ -78,6 +88,9 @@ namespace OpenGL_Helper.Object
         /// </summary>
         public void Render()
         {
+            foreach (Uniform u in Uniforms)
+                u.Update();
+
             GL.BindVertexArray(vertex_array_object);
             GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedShort, 0);
         }        

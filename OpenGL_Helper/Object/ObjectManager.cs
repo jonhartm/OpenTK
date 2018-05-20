@@ -7,6 +7,7 @@
 namespace OpenGL_Helper.Object
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using OpenTK.Graphics.OpenGL;
 
@@ -50,6 +51,11 @@ namespace OpenGL_Helper.Object
                     obj.Render();
                 }
             }
+        }
+
+        public static GLObject GetObjectByID(int ID)
+        {
+            return storedObjects.SelectMany(s => s.Value).Where(s => s.ID == ID).FirstOrDefault();
         }
     }
 }

@@ -24,6 +24,8 @@ namespace OpenGL_Helper.Shaders
         /// The location handle for this uniform.
         /// </summary>
         internal int handle = -1;
+
+        public abstract void Update();
     }
 
     /// <summary>
@@ -36,6 +38,8 @@ namespace OpenGL_Helper.Shaders
         /// The value of this Uniform.
         /// </summary>
         public virtual T Value { get; set; }
+
+        internal T value;
 
         /// <summary>
         /// Creates a new instance of the <see cref="Uniform{T}"/> Class.
@@ -60,9 +64,14 @@ namespace OpenGL_Helper.Shaders
         /// </summary>
         public override Vec3 Value
         {
+            get
+            {
+                return this.value;
+            }
             set
             {
                 GL.Uniform3(this.handle, value.x, value.y, value.z);
+                this.value = value;
                 System.Console.WriteLine("New Vec3 Value for Uniform {0} (ID {1}): {2}", this.Name, this.handle, value);
             }
         }
@@ -77,6 +86,11 @@ namespace OpenGL_Helper.Shaders
             : base(name, shaderProgram)
         {
             Value = intitialValue;
+        }
+
+        public override void Update()
+        {
+            GL.Uniform3(this.handle, this.Value.x, this.Value.y, this.Value.z);
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿namespace Pong
 {
+    using System;
     using System.Collections.Generic;
     using System.Drawing;
 
@@ -25,13 +26,15 @@
 
         private static void Win_Load()
         {
-            GLRectangle myRect = new GLRectangle(new RectangleF(new PointF(-.1f, -.1f), new SizeF(2f, .2f)));
-            myRect.MyColor = new Vec3(1f, 1f, .5f);
-            ObjectManager.AddObject(myRect);
+            ObjectManager.AddObject(new GLRectangle(new RectangleF(new PointF(-.1f, -.1f), new SizeF(2f, .2f))));
+            ObjectManager.AddObject(new GLRectangle(new RectangleF(new PointF(.1f, .1f), new SizeF(.2f, .2f))));
+
+            ((GLRectangle)ObjectManager.GetObjectByID(1)).MyColor = new Vec3(.7f, .3f, .2f);
         }
 
         private static void Win_Update()
         {
+            ((GLRectangle)ObjectManager.GetObjectByID(0)).MyColor = new Vec3(1f, ((float)DateTime.Now.Millisecond / 1000), .5f);
         }
 
         private static void Win_Render()
