@@ -5,28 +5,37 @@
 
 namespace OpenGL_Helper.Shaders
 {
+    using System.Collections.Generic;
+
     using OpenTK.Graphics.OpenGL;
 
     /// <summary>
-    /// Abstract generic class for holding basic Uniform data.
+    /// Abstract base class for Uniforms.
+    /// Lets me create a list of Uniforms without having to specify a type.
     /// </summary>
-    /// <typeparam name="T">The type of the Uniform. Must be a valid GLSL type.</typeparam>
-    public abstract class Uniform<T>
+    public abstract class Uniform
     {
         /// <summary>
-        /// The value of this Uniform.
+        /// The name of this uniform in the shader
         /// </summary>
-        public virtual T Value { get; set; }
+        public string Name { get; internal set; }
 
         /// <summary>
         /// The location handle for this uniform.
         /// </summary>
         internal int handle = -1;
+    }
 
+    /// <summary>
+    /// Abstract generic class for holding basic Uniform data.
+    /// </summary>
+    /// <typeparam name="T">The type of the Uniform. Must be a valid GLSL type.</typeparam>
+    public abstract class Uniform<T> : Uniform
+    {
         /// <summary>
-        /// The name of this uniform in the shader
+        /// The value of this Uniform.
         /// </summary>
-        internal string name;
+        public virtual T Value { get; set; }
 
         /// <summary>
         /// Creates a new instance of the <see cref="Uniform{T}"/> Class.
@@ -35,7 +44,7 @@ namespace OpenGL_Helper.Shaders
         /// <param name="shaderProgram">The shader program object to look in.</param>
         public Uniform(string name, ShaderProgram shaderProgram)
         {
-            this.name = name;
+            this.Name = name;
             shaderProgram.Use();
             this.handle = GL.GetUniformLocation(shaderProgram.Handle, name);
         }
@@ -54,7 +63,7 @@ namespace OpenGL_Helper.Shaders
             set
             {
                 GL.Uniform3(this.handle, value.x, value.y, value.z);
-                System.Console.WriteLine("New Vec3 Value for Uniform {0} (ID {1}): {2}", this.name, this.handle, value);
+                System.Console.WriteLine("New Vec3 Value for Uniform {0} (ID {1}): {2}", this.Name, this.handle, value);
             }
         }
 
@@ -68,6 +77,22 @@ namespace OpenGL_Helper.Shaders
             : base(name, shaderProgram)
         {
             Value = intitialValue;
+        }
+    }
+
+    public static class UniformExtensionMethods
+    {
+        // TODO: Is this dumb? This might be dumb.
+        /// <summary>
+        /// Get a uniform from a list of uniforms by it's name.
+        /// </summary>
+        /// <typeparam name="T">The type of Uniform to return.</typeparam>
+        /// <param name="uniforms">The list of uniforms to search.</param>
+        /// <param name="name">The name to look for.</param>
+        /// <returns>A Uniform object of the requested type.</returns>
+        public static Uniform<T> GetByName<T>(this List<Uniform> uniforms, string name)
+        {
+            return (Uniform<T>)uniforms.Find(x => x.Name == name);
         }
     }
 }

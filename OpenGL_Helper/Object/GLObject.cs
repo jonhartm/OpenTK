@@ -22,6 +22,8 @@ namespace OpenGL_Helper.Object
         /// </summary>
         public ShaderProgram ShaderProgram { get; private set; }
 
+        public List<Uniform> Uniforms { get; internal set; } = new List<Uniform>();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GLObject"/> class.
         /// Empty Constructor.

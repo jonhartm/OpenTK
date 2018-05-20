@@ -24,7 +24,9 @@
 
         private static void Win_Load()
         {
-            ObjectManager.AddObject(new GLRectangle(new RectangleF(new PointF(-1.0f, -1.0f), new SizeF(2f, 2f))));
+            GLRectangle myRect = new GLRectangle(new RectangleF(new PointF(-.1f, -.1f), new SizeF(2f, .2f)));
+            myRect.MyColor = new Vec3(1f, 1f, .5f);
+            ObjectManager.AddObject(myRect);
         }
 
         private static void Win_Render()

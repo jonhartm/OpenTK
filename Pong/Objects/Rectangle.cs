@@ -12,6 +12,21 @@ namespace Pong.Objects
 
     public class GLRectangle : GLObject
     {
+        public Vec3 MyColor
+        {
+            get
+            {
+                return this.mycolor;
+            }
+            set
+            {
+                this.mycolor = value;
+                this.Uniforms.GetByName<Vec3>("ourColor").Value = value;
+            }
+        }
+
+        private Vec3 mycolor;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GLRectangle"/> class.
         /// </summary>
@@ -37,7 +52,7 @@ namespace Pong.Objects
 
             LoadObjectData(vertices, indices, new List<Shader>() { tri1_vertexShader, tri1_fragmentShader });
 
-            UniformVec3 tri1_color = new UniformVec3(new Vec3(1.0f, 0.0f, 0.0f), "ourColor", this.ShaderProgram);
+            this.Uniforms.Add(new UniformVec3(Vec3.None, "ourColor", this.ShaderProgram));
         }
     }
 }
