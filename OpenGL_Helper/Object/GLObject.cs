@@ -24,10 +24,30 @@ namespace OpenGL_Helper.Object
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GLObject"/> class.
+        /// Empty Constructor.
+        /// </summary>
+        public GLObject()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GLObject"/> class.
         /// </summary>
         /// <param name="vertices">An array of floats with vertex information for the object.</param>
+        /// <param name="indices">An array of shorts with the ordering information for the object's verticies. </param>
         /// <param name="shaders">A list of the shaders to be used by this object.</param>
         public GLObject(Vertex[] vertices, short[] indices, List<Shader> shaders)
+        {
+            this.LoadObjectData(vertices, indices, shaders);
+        }
+
+        /// <summary>
+        /// Load object data into the Vertex Array Object
+        /// </summary>
+        /// <param name="vertices">An array of floats with vertex information for the object.</param>
+        /// <param name="indices">An array of shorts with the ordering information for the object's verticies. </param>
+        /// <param name="shaders">A list of the shaders to be used by this object.</param>
+        public void LoadObjectData(Vertex[] vertices, short[] indices, List<Shader> shaders)
         {
             // build and compile the shaders
             ShaderProgram = ShaderProgram.LoadShaderProgram(shaders);
