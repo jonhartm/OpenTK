@@ -16,16 +16,13 @@ namespace Pong.Objects
         {
             get
             {
-                return this.mycolor;
+                return this.Uniforms.GetByName<Vec3>("ourColor").Value;
             }
             set
             {
-                this.mycolor = value;
                 this.Uniforms.GetByName<Vec3>("ourColor").Value = value;
             }
         }
-
-        private Vec3 mycolor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GLRectangle"/> class.
