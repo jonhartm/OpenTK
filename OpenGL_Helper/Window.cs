@@ -15,6 +15,7 @@
         public delegate void WindowEventHandler();
 
         public event WindowEventHandler Load;
+        public event WindowEventHandler Update;
         public event WindowEventHandler Render;
 
         /// <summary>
@@ -111,6 +112,7 @@
         /// <param name="e">Not Used.</param>
         private void OnUpdateFrame(object sender, FrameEventArgs e)
         {
+            this.Update();
         }
 
         /// <summary>
