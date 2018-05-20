@@ -22,11 +22,24 @@ namespace OpenGL_Helper
             }
         }
 
+        public static Vec3 None
+        {
+            get
+            {
+                return new Vec3(0, 0, 0);
+            }
+        }
+
         public Vec3(float x, float y, float z)
         {
             this.x = x;
             this.y = y;
             this.z = z;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0},{1},{2}",x,y,z);
         }
     }
 }
