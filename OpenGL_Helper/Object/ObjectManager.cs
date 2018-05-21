@@ -57,5 +57,10 @@ namespace OpenGL_Helper.Object
         {
             return storedObjects.SelectMany(s => s.Value).Where(s => s.ID == ID).FirstOrDefault();
         }
+
+        public static GLObject GetObjectByName(string name)
+        {
+            return storedObjects.SelectMany(s => s.Value).Where(s => s.Name == name).FirstOrDefault();
+        }
     }
 }

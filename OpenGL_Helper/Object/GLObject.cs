@@ -22,6 +22,8 @@ namespace OpenGL_Helper.Object
         /// </summary>
         private static int Counter = 0;
 
+        public string Name { get; set; }
+
         /// <summary>
         /// Integer that holds a reference to the GL assigned handle for this object's Vertex Array Object
         /// </summary>
@@ -48,8 +50,9 @@ namespace OpenGL_Helper.Object
         /// <param name="vertices">An array of floats with vertex information for the object.</param>
         /// <param name="indices">An array of shorts with the ordering information for the object's verticies. </param>
         /// <param name="shaders">A list of the shaders to be used by this object.</param>
-        public GLObject(Vertex[] vertices, short[] indices, List<Shader> shaders)
+        public GLObject(Vertex[] vertices, short[] indices, List<Shader> shaders, string name)
         {
+            this.Name = name;
             this.LoadObjectData(vertices, indices, shaders);
         }
 

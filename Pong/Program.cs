@@ -26,15 +26,22 @@
 
         private static void Win_Load()
         {
-            ObjectManager.AddObject(new GLRectangle(new RectangleF(new PointF(-.1f, -.1f), new SizeF(2f, .2f))));
-            ObjectManager.AddObject(new GLRectangle(new RectangleF(new PointF(.1f, .1f), new SizeF(.2f, .2f))));
-
-            ((GLRectangle)ObjectManager.GetObjectByID(1)).MyColor = new Vec3(.7f, .3f, .2f);
+            ObjectManager.AddObject(
+                new GLRectangle(
+                    new RectangleF(
+                        new PointF(-.2f, -.2f), 
+                        new SizeF(.2f, .2f)
+                        ),
+                        "Rectangle 1"
+                    )
+                );
+            ObjectManager.AddObject(new GLRectangle(new RectangleF(new PointF(.1f, .1f), new SizeF(.2f, .2f)), "Rectangle 2"));
         }
-
+         
         private static void Win_Update()
         {
-            ((GLRectangle)ObjectManager.GetObjectByID(0)).MyColor = new Vec3(1f, ((float)DateTime.Now.Millisecond / 1000), .5f);
+            ((GLRectangle)ObjectManager.GetObjectByName("Rectangle 1")).MyColor = new Vec3(((float)DateTime.Now.Millisecond / 1000), ((float)DateTime.Now.Millisecond / 1000), ((float)DateTime.Now.Millisecond / 1000));
+            ((GLRectangle)ObjectManager.GetObjectByName("Rectangle 2")).MyColor = new Vec3(1f, ((float)DateTime.Now.Millisecond / 1000), .5f);
         }
 
         private static void Win_Render()

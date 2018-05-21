@@ -28,8 +28,9 @@ namespace Pong.Objects
         /// Initializes a new instance of the <see cref="GLRectangle"/> class.
         /// </summary>
         /// <param name="dimensions">The size and location of this object.</param>
-        public GLRectangle(RectangleF dimensions)
-        { 
+        public GLRectangle(RectangleF dimensions, string name)
+        {
+            this.Name = name;
             Vertex[] vertices =
             {
                 new Vertex(new Vec3(dimensions.Right,  dimensions.Bottom, 0.0f)),
