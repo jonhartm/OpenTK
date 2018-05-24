@@ -65,6 +65,7 @@
             this.fpsUpdate.Elapsed += FpsUpdate_Elapsed;
 
             window.Load += OnLoad;
+            window.Resize += OnResize;
             window.UpdateFrame += OnUpdateFrame;
             window.RenderFrame += OnRenderFrame;
 
@@ -110,6 +111,12 @@
             Console.WriteLine(GL.GetString(StringName.Vendor) + " - " + GL.GetString(StringName.Renderer));
 
             this.Load();
+        }
+
+        private void OnResize(object sender, EventArgs e)
+        {
+            //create the Viewport
+            GL.Viewport(0, 0, 800, 600);
         }
 
         /// <summary>
