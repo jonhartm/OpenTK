@@ -20,6 +20,8 @@
                 win.Update += Win_Update;
                 win.Render += Win_Render;
 
+                win.KeyDown += Win_KeyDown;
+
                 win.Run();
             }
         }
@@ -40,13 +42,17 @@
          
         private static void Win_Update()
         {
-            ((GLRectangle)ObjectManager.GetObjectByName("Rectangle 1")).MyColor = new Vec3(((float)DateTime.Now.Millisecond / 1000), ((float)DateTime.Now.Millisecond / 1000), ((float)DateTime.Now.Millisecond / 1000));
-            ((GLRectangle)ObjectManager.GetObjectByName("Rectangle 2")).MyColor = new Vec3(1f, ((float)DateTime.Now.Millisecond / 1000), .5f);
+            
         }
 
         private static void Win_Render()
         {
             ObjectManager.RenderAll();
+        }
+
+        private static void Win_KeyDown(string key)
+        {
+            Console.WriteLine(key);
         }
     }
 }

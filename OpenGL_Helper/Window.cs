@@ -7,16 +7,20 @@
 
     using OpenTK;
     using OpenTK.Graphics.OpenGL;
+    using OpenTK.Input;
 
     using Shaders;
 
     public class Window : IDisposable
     {
         public delegate void WindowEventHandler();
+        public delegate void WindowInputEventHandler(string k);
 
         public event WindowEventHandler Load;
         public event WindowEventHandler Update;
         public event WindowEventHandler Render;
+
+        public event WindowInputEventHandler KeyDown;
 
         /// <summary>
         /// Gets the title of the window, it's current FPS, and dimensions.
@@ -63,6 +67,8 @@
             window.Load += OnLoad;
             window.UpdateFrame += OnUpdateFrame;
             window.RenderFrame += OnRenderFrame;
+
+            window.KeyDown += OnKeyDown;
         }
 
         public void Dispose()
@@ -128,6 +134,11 @@
             this.Render();
 
             window.SwapBuffers();
+        }
+
+        private void OnKeyDown(object senter, KeyboardKeyEventArgs e)
+        {
+            this.KeyDown(e.Key.ToString());
         }
     }
 }
