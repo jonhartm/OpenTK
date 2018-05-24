@@ -110,6 +110,8 @@
             Console.WriteLine("GLSL Version: " + GL.GetString(StringName.ShadingLanguageVersion));
             Console.WriteLine(GL.GetString(StringName.Vendor) + " - " + GL.GetString(StringName.Renderer));
 
+            Camera.Initialize(this.window.ClientSize, 0.1f, 100f, new Vector3(0.0f, 0.0f, 30.0f), Vector3.Zero);
+
             this.Load();
         }
 

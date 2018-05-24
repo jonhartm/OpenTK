@@ -51,6 +51,7 @@ namespace Pong.Objects
             LoadObjectData(vertices, indices, new List<Shader>() { tri1_vertexShader, tri1_fragmentShader });
 
             this.Uniforms.Add(new UniformVec3(Vec3.None, "ourColor", this.ShaderProgram));
+            UniformBlock CameraBlock = new UniformBlock(Camera.GlobalUBO, this.ShaderProgram);
         }
     }
 }
