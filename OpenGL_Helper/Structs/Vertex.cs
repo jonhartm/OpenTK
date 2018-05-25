@@ -1,23 +1,26 @@
-﻿namespace OpenGL_Helper
+﻿// ---------------------------------------------------------------
+// <summary>
+// Vertex Object for sending compact Vertex data.
+// </summary>
+// ---------------------------------------------------------------
+
+namespace OpenGL_Helper
 {
+    /// <summary>
+    /// Basic Vertex Object.
+    /// </summary>
     public struct Vertex
     {
         /// <summary> The location of the vertex in 3d space. </summary>
         private Vec3 position;
 
         /// <summary>
-        /// Gets or sets the Position for this Vertex in model space.
+        /// Initializes a new instance of the <see cref="Vertex"/> struct.
         /// </summary>
-        public Vec3 Position
+        /// <param name="positionData">The Location of this Vertex in Model Space.</param>
+        public Vertex(Vec3 positionData)
         {
-            get
-            {
-                return this.position;
-            }
-            set
-            {
-                this.position = value;
-            }
+            this.position = positionData;
         }
 
         /// <summary>
@@ -32,12 +35,19 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Vertex"/> struct.
+        /// Gets or sets the Position for this Vertex in model space.
         /// </summary>
-        /// <param name="positionData">The Location of this Vertex in Model Space.</param>
-        public Vertex(Vec3 positionData)
+        public Vec3 Position
         {
-            this.position = positionData;
+            get
+            {
+                return this.position;
+            }
+
+            set
+            {
+                this.position = value;
+            }
         }
     }
 }

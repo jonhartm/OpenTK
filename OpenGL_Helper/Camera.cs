@@ -1,5 +1,8 @@
-﻿// <summary> Static class for initializing and manipulating the camera. </summary>
-
+﻿// --------------------------------------------------------------
+// <summary> 
+// Static class for initializing and manipulating the camera. 
+// </summary>
+// --------------------------------------------------------------
 namespace OpenGL_Helper
 {
     using System;

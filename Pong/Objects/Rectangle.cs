@@ -1,6 +1,8 @@
-﻿/// <summary>
-/// Example object derived from GLObject.
-/// </summary>
+﻿// --------------------------------------------------------------
+// <summary>
+// Example object derived from GLObject.
+// </summary>
+// --------------------------------------------------------------
 
 namespace Pong.Objects
 {
@@ -10,24 +12,16 @@ namespace Pong.Objects
     using OpenGL_Helper.Object;
     using OpenGL_Helper.Shaders;
 
+    /// <summary>
+    /// Creates a simple rectangle with a standard shader. 
+    /// </summary>
     public class GLRectangle : GLObject
     {
-        public Vec3 MyColor
-        {
-            get
-            {
-                return this.Uniforms.GetByName<Vec3>("ourColor").Value;
-            }
-            set
-            {
-                this.Uniforms.GetByName<Vec3>("ourColor").Value = value;
-            }
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GLRectangle"/> class.
         /// </summary>
         /// <param name="dimensions">The size and location of this object.</param>
+        /// <param name="name">The name of this particular object.</param>
         public GLRectangle(RectangleF dimensions, string name)
         {
             this.Name = name;
@@ -48,10 +42,26 @@ namespace Pong.Objects
             Shader tri1_vertexShader = Shader.LoadVertexShader(@"Shader\Source\moreShaders.vert.glsl");
             Shader tri1_fragmentShader = Shader.LoadFragmentShader(@"Shader\Source\moreShaders.frag.glsl");
 
-            LoadObjectData(vertices, indices, new List<Shader>() { tri1_vertexShader, tri1_fragmentShader });
+            this.LoadObjectData(vertices, indices, new List<Shader>() { tri1_vertexShader, tri1_fragmentShader });
 
             this.Uniforms.Add(new UniformVec3(Vec3.None, "ourColor", this.ShaderProgram));
-            UniformBlock CameraBlock = new UniformBlock(Camera.GlobalUBO, this.ShaderProgram);
+            UniformBlock cameraBlock = new UniformBlock(Camera.GlobalUBO, this.ShaderProgram);
+        }
+
+        /// <summary>
+        /// Gets or sets the color of this rectangle.
+        /// </summary>
+        public Vec3 MyColor
+        {
+            get
+            {
+                return this.Uniforms.GetByName<Vec3>("ourColor").Value;
+            }
+
+            set
+            {
+                this.Uniforms.GetByName<Vec3>("ourColor").Value = value;
+            }
         }
     }
 }

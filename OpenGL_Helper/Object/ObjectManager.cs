@@ -1,8 +1,10 @@
-﻿/// <summary>
-/// Stores the Objects that are added to the GL Context in a single list, indexed by the Shader Program they use
-/// Is used during the render operation to avoid a situation where we keep switching between shader programs 
-/// All of the objects that use the same shader program are rendered at once, then the next and so on.
-/// </summary>
+﻿//-----------------------------------------------------------------------
+// <summary>
+// Stores the Objects that are added to the GL Context in a single list, indexed by the Shader Program they use
+// Is used during the render operation to avoid a situation where we keep switching between shader programs 
+// All of the objects that use the same shader program are rendered at once, then the next and so on.
+// </summary>
+//-----------------------------------------------------------------------
 
 namespace OpenGL_Helper.Object
 {
@@ -11,19 +13,24 @@ namespace OpenGL_Helper.Object
 
     using OpenTK.Graphics.OpenGL;
 
+    /// <summary>
+    /// Stores the Objects that are added to the GL Context in a single list, indexed by the Shader Program they use
+    /// Is used during the render operation to avoid a situation where we keep switching between shader programs 
+    /// All of the objects that use the same shader program are rendered at once, then the next and so on.
+    /// </summary>
     public static class ObjectManager
     {
         /// <summary>
-        /// A Dictionary of List<GLObject> that are indexed by shader program
+        /// A Dictionary of a List of GLObjects that are indexed by shader program
         /// </summary>
-        private static Dictionary<int, List<GLObject>> storedObjects;
+        private static readonly Dictionary<int, List<GLObject>> StoredObjects;
 
         /// <summary>
-        /// Constructor.
+        /// Initializes static members of the <see cref="ObjectManager" /> class.
         /// </summary>
         static ObjectManager()
         {
-            storedObjects = new Dictionary<int, List<GLObject>>();
+            StoredObjects = new Dictionary<int, List<GLObject>>();
         }
 
         /// <summary>
@@ -32,10 +39,12 @@ namespace OpenGL_Helper.Object
         /// <param name="obj">The GL Object to add.</param>
         public static void AddObject(GLObject obj)
         {
-            if (!storedObjects.ContainsKey(obj.ShaderProgram.Handle))
-                storedObjects[obj.ShaderProgram.Handle] = new List<GLObject>();
+            if (!StoredObjects.ContainsKey(obj.ShaderProgram.Handle))
+            {
+                StoredObjects[obj.ShaderProgram.Handle] = new List<GLObject>();
+            }
 
-            storedObjects[obj.ShaderProgram.Handle].Add(obj);
+            StoredObjects[obj.ShaderProgram.Handle].Add(obj);
         }
 
         /// <summary>
@@ -43,24 +52,34 @@ namespace OpenGL_Helper.Object
         /// </summary>
         public static void RenderAll()
         {
-            foreach (int shaderProgram in storedObjects.Keys)
+            foreach (int shaderProgram in StoredObjects.Keys)
             {
                 GL.UseProgram(shaderProgram);
-                foreach (GLObject obj in storedObjects[shaderProgram])
+                foreach (GLObject obj in StoredObjects[shaderProgram])
                 {
                     obj.Render();
                 }
             }
         }
 
-        public static GLObject GetObjectByID(int ID)
+        /// <summary>
+        /// Get a GL Object from the Stored List by it's numerical ID.
+        /// </summary>
+        /// <param name="id">The Integer ID of the object to return.</param>
+        /// <returns>A GLObject if it is found, null if not.</returns>
+        public static GLObject GetObjectByID(int id)
         {
-            return storedObjects.SelectMany(s => s.Value).Where(s => s.ID == ID).FirstOrDefault();
+            return StoredObjects.SelectMany(s => s.Value).FirstOrDefault(s => s.ID == id);
         }
 
+        /// <summary>
+        /// Get a GL Object from the Stored List by it's unique name.
+        /// </summary>
+        /// <param name="name">The name of the object to return.</param>
+        /// <returns>A GLObject if it is found, null if not.</returns>
         public static GLObject GetObjectByName(string name)
         {
-            return storedObjects.SelectMany(s => s.Value).Where(s => s.Name == name).FirstOrDefault();
+            return StoredObjects.SelectMany(s => s.Value).FirstOrDefault(s => s.Name == name);
         }
     }
 }

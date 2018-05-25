@@ -1,7 +1,8 @@
-﻿/// <summary>
-/// Class structure for a basic OpenGL object.
-/// </summary>
-
+﻿//-----------------------------------------------------------------------
+// <summary>
+// Class structure for a basic OpenGL object.
+// </summary>
+//-----------------------------------------------------------------------
 namespace OpenGL_Helper.Object
 {
     using System.Collections.Generic;
@@ -10,31 +11,21 @@ namespace OpenGL_Helper.Object
 
     using Shaders;
 
+    /// <summary>
+    /// Class Object for a Simplistic OpenGL visual. 
+    /// Provided with object data (Vertex and index arrays) and shaders, will add the object to the OpenGL Context.
+    /// </summary>
     public class GLObject
     {
         /// <summary>
-        /// Unique ID for this Object
-        /// </summary>
-        public int ID { get; private set; } = Counter++;
-
-        /// <summary>
         /// Counter to keep track of the current object
         /// </summary>
-        private static int Counter = 0;
-
-        public string Name { get; set; }
+        private static int counter;
 
         /// <summary>
         /// Integer that holds a reference to the GL assigned handle for this object's Vertex Array Object
         /// </summary>
-        private int vertex_array_object = -1;
-
-        /// <summary>
-        /// The shader program used by this object.
-        /// </summary>
-        public ShaderProgram ShaderProgram { get; private set; }
-
-        public List<Uniform> Uniforms { get; internal set; } = new List<Uniform>();
+        private int vertexArrayObject = -1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GLObject"/> class.
@@ -48,8 +39,9 @@ namespace OpenGL_Helper.Object
         /// Initializes a new instance of the <see cref="GLObject"/> class.
         /// </summary>
         /// <param name="vertices">An array of floats with vertex information for the object.</param>
-        /// <param name="indices">An array of shorts with the ordering information for the object's verticies. </param>
+        /// <param name="indices">An array of shorts with the ordering information for the object's vertices. </param>
         /// <param name="shaders">A list of the shaders to be used by this object.</param>
+        /// <param name="name">A string that uniquely identifies this object.</param>
         public GLObject(Vertex[] vertices, short[] indices, List<Shader> shaders, string name)
         {
             this.Name = name;
@@ -57,22 +49,42 @@ namespace OpenGL_Helper.Object
         }
 
         /// <summary>
+        /// Gets the Unique ID for this Object
+        /// </summary>
+        public int ID { get; private set; } = counter++;
+
+        /// <summary>
+        /// Gets or sets the user provided name for this object. Must be unique.
+        /// </summary>
+        public string Name { get; protected set; }
+
+        /// <summary>
+        /// Gets the shader program used by this object.
+        /// </summary>
+        public ShaderProgram ShaderProgram { get; private set; }
+
+        /// <summary>
+        /// Gets the list of Uniform objects associated with this object.
+        /// </summary>
+        public List<Uniform> Uniforms { get; internal set; } = new List<Uniform>();
+
+        /// <summary>
         /// Load object data into the Vertex Array Object
         /// </summary>
         /// <param name="vertices">An array of floats with vertex information for the object.</param>
-        /// <param name="indices">An array of shorts with the ordering information for the object's verticies. </param>
+        /// <param name="indices">An array of shorts with the ordering information for the object's vertices. </param>
         /// <param name="shaders">A list of the shaders to be used by this object.</param>
         public void LoadObjectData(Vertex[] vertices, short[] indices, List<Shader> shaders)
         {
             // build and compile the shaders
-            ShaderProgram = ShaderProgram.LoadShaderProgram(shaders);
+            this.ShaderProgram = ShaderProgram.LoadShaderProgram(shaders);
 
             // set up vertex data and buffers and configure vertex attributes
-            vertex_array_object = GL.GenVertexArray();
+            this.vertexArrayObject = GL.GenVertexArray();
             int vertex_buffer_object = GL.GenBuffer();
             int element_bufer_object = GL.GenBuffer();
 
-            GL.BindVertexArray(vertex_array_object);
+            GL.BindVertexArray(this.vertexArrayObject);
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, vertex_buffer_object);
             GL.BufferData(BufferTarget.ArrayBuffer, Vertex.SizeInBytes * vertices.Length, vertices, BufferUsageHint.StaticDraw);
@@ -91,10 +103,12 @@ namespace OpenGL_Helper.Object
         /// </summary>
         public void Render()
         {
-            foreach (Uniform u in Uniforms)
+            foreach (Uniform u in this.Uniforms)
+            {
                 u.Update();
+            }
 
-            GL.BindVertexArray(vertex_array_object);
+            GL.BindVertexArray(this.vertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedShort, 0);
         }        
     }
