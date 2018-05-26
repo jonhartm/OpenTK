@@ -60,11 +60,6 @@ namespace OpenGL_Helper.Shaders
     public abstract class Uniform<T> : Uniform
     {
         /// <summary>
-        /// The value of this uniform object.
-        /// </summary>
-        protected T value;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Uniform{T}"/> class.
         /// </summary>
         /// <param name="name">The name of this uniform in the shader.</param>
@@ -102,19 +97,12 @@ namespace OpenGL_Helper.Shaders
         /// <summary>
         /// Sets the value for this object, both in this class and in the GL context.
         /// </summary>
-        public override Vec3 Value
+        /// <param name="value">The value to assign to this uniform.</param>
+        public void SetValue(Vec3 value)
         {
-            get
-            {
-                return this.value;
-            }
-
-            set
-            {
-                GL.Uniform3(this.Handle, value.X, value.Y, value.Z);
-                this.value = value;
-                System.Console.WriteLine("New Vec3 Value for Uniform {0} (ID {1}): {2}", this.Name, this.Handle, value);
-            }
+            GL.Uniform3(this.Handle, value.X, value.Y, value.Z);
+            this.Value = value;
+            System.Console.WriteLine("New Vec3 Value for Uniform {0} (ID {1}): {2}", this.Name, this.Handle, value);
         }
 
         /// <summary>
