@@ -59,7 +59,7 @@ namespace Pong
         /// </summary>
         private static void Win_Render()
         {
-            ObjectManager.RenderAll();
+            
         }
 
         /// <summary>

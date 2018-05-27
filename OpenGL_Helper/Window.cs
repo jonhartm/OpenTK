@@ -14,6 +14,8 @@ namespace OpenGL_Helper
     using OpenTK.Graphics.OpenGL;
     using OpenTK.Input;
 
+    using Object;
+
     /// <summary>
     /// Create a window.
     /// </summary>
@@ -184,6 +186,8 @@ namespace OpenGL_Helper
             this.frameCount++;
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+            ObjectManager.RenderAll();
 
             this.Render();
 
